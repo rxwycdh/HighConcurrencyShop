@@ -1,0 +1,10 @@
+2020-05-21 16:08:01 INFO  ThreadPoolTaskExecutor:171 - Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-21 16:08:01 INFO  MapperCacheDisabler:60 - Clear tk.mybatis.mapper.util.MsUtil CLASS_CACHE cache.
+2020-05-21 16:08:01 INFO  MapperCacheDisabler:60 - Clear tk.mybatis.mapper.genid.GenIdUtil CACHE cache.
+2020-05-21 16:08:01 INFO  MapperCacheDisabler:60 - Clear tk.mybatis.mapper.version.VersionUtil CACHE cache.
+2020-05-21 16:08:01 INFO  MapperCacheDisabler:83 - Clear EntityHelper entityTableMap cache.
+2020-05-21 16:08:02 INFO  DocumentationPluginsBootstrapper:84 - Context refreshed
+2020-05-21 16:08:02 INFO  DocumentationPluginsBootstrapper:87 - Found 1 custom documentation plugin(s)
+2020-05-21 16:08:02 INFO  ApiListingReferenceScanner:44 - Scanning for api listing references
+2020-05-21 16:08:02 INFO  TransTest:59 - Started TransTest in 4.615 seconds (JVM running for 5.227)
+2020-05-21 16:08:02 INFO  ThreadPoolTaskExecutor:208 - Shutting down ExecutorService 'applicationTaskExecutor'

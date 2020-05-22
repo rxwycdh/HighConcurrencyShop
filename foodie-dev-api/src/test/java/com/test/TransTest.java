@@ -1,0 +1,36 @@
+package com.test;
+
+import com.imooc.Application;
+import com.imooc.pojo.Stu;
+import com.imooc.service.StuService;
+import com.imooc.service.TestTransService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+/**
+ * @FileName TransTest
+ * @Description 创建测试需要runwith和springboottest
+ * @Author jiuhao
+ * @Date 2020/5/13 19:23
+ * @Modified
+ * @Version 1.0
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = Application.class)
+public class TransTest {
+
+    @Autowired
+    private StuService stuService;
+
+    @Autowired
+    private TestTransService testTransService;
+
+
+    @Test
+    public void myTest() {
+//         testTransService.testPropagationTrans();
+    }
+}

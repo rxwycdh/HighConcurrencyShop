@@ -1,0 +1,42 @@
+# tomcat配置
+server:
+  port: 8088
+  tomcat:
+    uri-encoding: UTF-8
+  jetty:
+    max-http-post-size: 80KB
+
+
+# 数据源配置信息
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/foodie-shop-dev?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: zhao0423
+    hikari:
+      connection-timeout: 30000          # 等待连接池分配连接的最大时长(毫秒) ，超过这个时长还没可用的连接则发生SQLException, 默认30秒
+      minimum-idle: 5                    # 最少连接数 dev:10
+      maximum-pool-size: 20              # 最大连接数
+      auto-commit: true                  # 自动提交
+      idle-timeout: 600000               # 连接超时的最大时长(毫秒) ， 超时则被释放(retired) , 默认10分钟
+      pool-name: DateSourceHikariCP      # 连接池名字
+      max-lifetime: 1800000              # 连接生命时长(毫秒) ，超时而且没被使用的则被释放，默认30分钟
+      connection-test-query: SELECT 1    # 连接测试语句
+# mybatis配置 会在所有子工程下java和resource找com.immoc.pojo和mapper/*.xml
+mybatis:
+  type-aliases-package: com.immoc.pojo
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+mapper:
+  mappers: com.imooc.my.mapper.MyMapper
+  not-empty: false                       # 在进行数据库操作的时候，判断表达式 != null，是否追加此判断
+  identity: MYSQL
+
+# 分页插件配置
+#pagehelper:
+#  dialect: MYSQL
+#  support-methods-arguments: true
