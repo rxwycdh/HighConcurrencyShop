@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mapper.OrdersMapperCustom" >
+
+    <resultMap id="myOrdersVO" type="com.imooc.pojo.vo.MyOrdersVO">
+        <id column="orderId" property="orderId"/>
+        <result column="createTime" property="createTime"/>
+        <result column="payMethod" property="payMethod"/>
+        <result column="realPayAmount" property="realPayAmount"/>
+        <result column="postAmount" property="postAmount"/>
+        <result column="isComment" property="isComment"/>
+        <result column="orderStatus" property="orderStatus"/>
+
+        <collection property="subOrderItemList"
+                    select="getSubItems"
+                    column="orderId"
+                    ofType="com.imooc.pojo.vo.MySubOrderItemVO">
+            <result column="itemId" property="itemId"/>
+            <result column="itemName" property="itemName"/>
+            <result column="itemImg" property="itemImg"/>
+            <result column="itemSpecId" property="itemSpecId"/>
+            <result column="itemSpecName" property="itemSpecName"/>
+            <result column="buyCounts" property="buyCounts"/>
+            <result column="price" property="price"/>
+        </collection>
+    </resultMap>
+
+
+
+  <select id = "queryByOrders" resultMap="myOrdersVO" parameterType="map">
+    SELECT
+        od.id AS orderId,
+        od.`created_time` createTime,
+        od.`pay_method` payMethod,
+        od.`real_pay_amount` realPayAmount,
+        od.`post_amount` postAmount,
+        os.`order_status` orderStatus,
+        od.`is_comment` isComment
+    FROM
+        orders od
+    LEFT JOIN
+        order_status os
+    ON
+        od.`id` = os.`order_id`
+    WHERE
+        od.`user_id` = #{paramsMap.userId}
+    AND
+        od.`is_delete` = 0
+    <if test="paramsMap.orderStatus != null">
+        AND
+            os.order_status = #{paramsMap.orderStatus}
+    </if>
+    ORDER BY
+        od.`updated_time`
+    ASC
+  </select>
+
+  <select id="getSubItems" parameterType="String" resultType="com.imooc.pojo.vo.MySubOrderItemVO">
+        select
+          oi.`item_id` itemId,
+          oi.`item_name` itemName,
+          oi.`item_img` itemImg,
+          oi.`item_spec_id` itemSpecId,
+          oi.`item_spec_name` itemSpecName,
+          oi.`buy_counts` buyCounts,
+          oi.`price` price
+        from
+            order_items oi
+        where
+            oi.order_id = #{orderId}
+  </select>
+
+
+    <select id="getMyOrderStatusCounts" parameterType="map" resultType="int">
+    SELECT
+	    COUNT(1)
+    FROM
+        orders o
+    LEFT JOIN
+        order_status os
+    ON
+        o.`id` = os.`order_id`
+    WHERE
+        o.`user_id` = #{paramsMap.userId}
+    AND
+        os.`order_status` = #{paramsMap.orderStatus}
+    <if test="paramsMap.isComment != null">
+        and o.is_comment = #{paramsMap.isComment}
+    </if>
+    </select>
+
+    <select id="getMyOrderTrend" parameterType="map" resultType="com.imooc.pojo.OrderStatus">
+        SELECT
+	os.`order_id` orderId,
+	os.`order_status` orderStatus,
+	os.`created_time` createdTime,
+	os.`pay_time` payTime,
+	os.`deliver_time` deliverTime,
+	os.`success_time` successTime,
+	os.`close_time` closeTime,
+	os.`comment_time` commentTime
+    FROM
+        orders o
+    LEFT JOIN
+        order_status os
+    ON
+        o.`id` = os.`order_id`
+    WHERE
+        o.`is_delete` = 0
+    AND
+        o.`user_id` = #{paramsMap.userId}
+    AND
+        os.`order_status` IN (20, 30, 40)
+    ORDER BY
+        os.`order_id` DESC
+    </select>
+</mapper>

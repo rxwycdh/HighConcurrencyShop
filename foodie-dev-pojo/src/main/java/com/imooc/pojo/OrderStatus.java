@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Table(name = "order_status")
-public class OrderStatus {
+public class   OrderStatus {
     /**
      * 订单ID;对应订单表的主键id
      */

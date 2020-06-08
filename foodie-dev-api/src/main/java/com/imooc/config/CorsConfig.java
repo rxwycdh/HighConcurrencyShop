@@ -25,8 +25,9 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         // 设置允许跨域请求的域名地址，如果设为*，则是由所有网址发来的都可以访问我们的接口（不推荐）
+        config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedOrigin("http://127.0.0.1:8080");
-        // 设置是否发送cookie信息
+        // 设置是否允许发送cookie信息
         config.setAllowCredentials(true);
         // 设置允许请求的http方式
         config.addAllowedMethod("*");

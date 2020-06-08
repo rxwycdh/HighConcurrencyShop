@@ -10,8 +10,8 @@ package com.imooc.enums;
  */
 public enum  YesOrNo {
 
-    YES(1, "否"),
-    NO(0, "是");
+    YES(1, "是"),
+    NO(0, "否");
 
     public final Integer type;
 

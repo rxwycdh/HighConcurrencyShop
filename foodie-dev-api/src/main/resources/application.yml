@@ -24,6 +24,10 @@ spring:
       pool-name: DateSourceHikariCP      # 连接池名字
       max-lifetime: 1800000              # 连接生命时长(毫秒) ，超时而且没被使用的则被释放，默认30分钟
       connection-test-query: SELECT 1    # 连接测试语句
+  servlet:
+    multipart:
+      max-file-size: 512000              # 限制文件上传大小为500kb
+      max-request-size: 512000           # 请求大小限制为500kb
 # mybatis配置 会在所有子工程下java和resource找com.immoc.pojo和mapper/*.xml
 mybatis:
   type-aliases-package: com.immoc.pojo

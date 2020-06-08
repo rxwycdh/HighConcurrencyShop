@@ -6,6 +6,7 @@ import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
 import com.imooc.pojo.vo.CommentLevelCountsVO;
 import com.imooc.pojo.vo.ItemInfoVO;
+import com.imooc.pojo.vo.ShopcartVO;
 import com.imooc.service.ItemService;
 import com.imooc.utils.IMOOCJSONResult;
 import com.imooc.utils.PagedGridResult;
@@ -76,10 +77,65 @@ public class ItemsController extends BaseController{
             page = 1;
         }
         if(pageSize == null) {
-            pageSize = COMMENT_PAGE_SIZE;
+            pageSize = COMMON_PAGE_SIZE;
         }
         PagedGridResult pagedGridResult = itemService.queryPagedComments(itemId, level, page, pageSize);
 
         return IMOOCJSONResult.ok(pagedGridResult);
+    }
+
+    @ApiOperation(value = "搜索商品列表")
+    @GetMapping("/search")
+    public IMOOCJSONResult comments(@RequestParam String keywords,
+                                    @RequestParam String sort,
+                                    @RequestParam Integer page,
+                                    @RequestParam Integer pageSize) {
+
+        if(page == null) {
+            page = 1;
+        }
+        if(pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+        PagedGridResult pagedGridResult = itemService.searchItems(keywords, sort, page, pageSize);
+
+        return IMOOCJSONResult.ok(pagedGridResult);
+    }
+
+    @ApiOperation(value = "根据三级分类id搜索商品列表")
+    @GetMapping("/catItems")
+    public IMOOCJSONResult comments(@RequestParam Integer catId,
+                                    @RequestParam String sort,
+                                    @RequestParam Integer page,
+                                    @RequestParam Integer pageSize) {
+
+        if(catId == null) {
+            return IMOOCJSONResult.errorMsg(null);
+        }
+
+        if(page == null) {
+            page = 1;
+        }
+        if(pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+        PagedGridResult pagedGridResult = itemService.searchItems(catId, sort, page, pageSize);
+
+        return IMOOCJSONResult.ok(pagedGridResult);
+    }
+
+    // 用于刷新购物车中数据（商品价格刷新），类似京东
+
+    @ApiOperation(value = "根据商品规格id列表查找最新的商品数据")
+    @GetMapping("/refresh")
+    public IMOOCJSONResult refresh(@RequestParam String itemSpecIds) {
+
+        if(StringUtils.isBlank(itemSpecIds)) {
+            return IMOOCJSONResult.ok();
+        } 
+
+        List<ShopcartVO> shopcartVOS = itemService.queryItemsBySpecIds(itemSpecIds);
+
+        return IMOOCJSONResult.ok(shopcartVOS);
     }
 }
